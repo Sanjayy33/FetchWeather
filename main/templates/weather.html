@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyWeather</title>
+
+    <style>
+
+        *{
+            padding:0;
+            margin:0;
+            box-sizing:border-box;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+
+        body{
+            width: 100vw;
+            height: 100vh;
+            background-color: aliceblue;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10%;
+        }
+
+        header{
+            width: 50%;
+            padding: 15px;
+            text-align: center;
+            background-color: #6c63ff;
+            color: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+
+        .container{
+            width: 90%;
+            height: 55%;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        .container .left{
+            width: 45%;
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid #e0e0e0; 
+            cursor: pointer;
+
+            border-radius: 12px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.6s ease,
+              border-color 0.6s ease,
+              box-shadow 0.6s ease; 
+        }
+        .container .left:hover{
+            transform: translateY(-12px);
+            border-color: orangered;;
+            box-shadow: 0 16px 30px rgba(249, 137, 9, 0.3);
+        }
+
+        .left .input-weather{
+            width: 200px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            font-weight: 600;
+            color: #fff;
+            background-color: orangered;
+            border-radius: 5px;
+            margin-top: 25px;
+            cursor: pointer;
+
+        }
+
+
+        .left form{
+            width: 100%;
+            height: 80%;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        form input{
+            height: 50px;
+            width: 70%;
+            padding: 15px;
+            border: 1px solid;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+            
+            font-size: 22px;
+        }
+
+        form button{
+            padding: 10px;
+            width: 150px;
+            font-size: 22px;
+            background-color: orangered;
+            color: #fff;
+            border-radius: 5px;
+            border: none;
+            transition: ease-out 0.3s;
+
+        }
+        form button:hover{
+            border-radius: 18px;
+        }
+
+        .container .right{
+            width: 45%;
+            height: 90%;
+            padding: 14px;
+            cursor: pointer;
+
+            background-color: #fff;
+            border: 3px solid #e0e0e0;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.6s ease,
+              border-color 0.6s ease,
+              box-shadow 0.6s ease;
+
+        }
+        .container .right:hover{
+            transform: translateY(-12px);
+            border-color: #6c63ff;
+            box-shadow: 0 16px 30px rgba(108, 99, 255, 0.3);
+        }
+
+        .top-heading{
+            width: 180px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            font-weight: 600;
+            color: #fff;
+            background-color: #6c63ff;
+            border-radius: 5px;
+
+        }
+
+        .result{
+            width: 100%;
+            height: 80%;
+            margin-top: 15px;
+            padding: 2%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 35px;
+            flex-direction: column;
+        }
+
+        
+
+        .result .error{
+            color: red;
+        }
+        
+        .result .city-name{
+            font-size: 22px;
+        }
+
+        .result .city-desc{
+            width: 100%;
+            padding: 8px;
+            background-color: aliceblue;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+        }
+
+
+
+
+    </style>
+</head>
+<body>
+
+
+    <header>
+        <h1>Welcome MyWeather</h1>
+    </header>
+
+    <div class="container">
+        <div class="left">
+
+            <div class="input-weather">Input Box</div>
+
+            <form method="get">
+
+                {% csrf_token %}
+                <input type="text" name="city" placeholder="enter city name">
+                <button type="submit">find weather</button>
+            </form>
+
+
+
+        </div>
+
+
+
+        <div class="right">
+
+
+            <div class="top-heading">Output Box</div>
+
+           
+
+
+            <div class="result">
+
+
+                {% if error %}
+                
+                <div class="error">
+                    <h2>{{error}}</h2>
+                </div>
+                
+
+                {% elif weather %}
+                
+                <div class="city-name">
+                    <h1>{{weather.city}}</h1>
+                </div>
+                <div class="city-temp">
+                    <h2> <span>temparture</span> :  {{weather.temp}}°C</h2>
+                </div>
+                <div class="city-desc">
+                    <h3>
+                        {{weather.description}}
+                    </h3>
+                </div>
+
+                {% else %}
+
+                <h2 style="color: rgb(99, 99, 99);">search city name in input box.</h2>
+                {% endif %}
+
+
+            </div>
+
+        </div>
+    </div>
+
+    
+</body>
+</html>
